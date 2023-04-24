@@ -1,6 +1,8 @@
+import { useContext } from "react";
+import { TodoContext } from "../lib/TodoContext";
 import { useHandleChange, useHandleSubmit } from "../lib/formHooks";
 import AddTodo from "./AddTodo";
-import TodoItem from "./TodoItem";
+import TodoList from "./TodoList";
 
 export default function Main() {
     const [todoItem, setTodoItem, handleChange] = useHandleChange({
@@ -8,6 +10,10 @@ export default function Main() {
         text: "",
     });
     const [todoList, handleSubmit] = useHandleSubmit([], todoItem, setTodoItem);
+
+    const data = {
+        todoList,
+    };
 
     return (
         <main
@@ -23,21 +29,18 @@ export default function Main() {
             "
         >
             <h2>What are you planning to do?</h2>
-
-            <section>
-                <AddTodo
-                    todoItem={todoItem}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                />
-            </section>
-            <section>
-                <ul>
-                    {todoList.map((item) => (
-                        <li key={item.id}> {item.text} </li>
-                    ))}
-                </ul>
-            </section>
+            <TodoContext.Provider value={data}>
+                <section>
+                    <AddTodo
+                        todoItem={todoItem}
+                        handleChange={handleChange}
+                        handleSubmit={handleSubmit}
+                    />
+                </section>
+                <section>
+                    <TodoList />
+                </section>
+            </TodoContext.Provider>
         </main>
     );
 }

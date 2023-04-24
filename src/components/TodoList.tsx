@@ -1,11 +1,17 @@
-import React from "react";
+import { useContext } from "react";
+import { TodoContext } from "../lib/TodoContext";
+import TodoItem from "./TodoItem";
 
-interface TodoListProps {
-    children: React.ReactNode;
-}
+const TodoList = () => {
+    const data = useContext(TodoContext);
 
-const TodoList: React.FC<TodoListProps> = ({ children }) => {
-    return <ul>{children}</ul>;
+    return (
+        <ul>
+            {data.todoList?.map((item) => (
+                <TodoItem key={item.id} text={item.text} />
+            ))}
+        </ul>
+    );
 };
 
 export default TodoList;

@@ -19,9 +19,13 @@ export function useHandleChange(initialValue: Item): UseItemReturnType {
 
     const handleChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            setItem({ ...item, text: event.target.value });
+            // const newId = nanoid();
+            setItem((prevState) => ({
+                ...prevState,
+                text: event.target.value,
+            }));
         },
-        [item, setItem]
+        [setItem]
     );
 
     return [item, setItem, handleChange];
@@ -33,18 +37,20 @@ export function useHandleSubmit(
     setValue: React.Dispatch<React.SetStateAction<Item>>
 ): UseArrayReturnType {
     const [list, setList] = useState<Item[]>(initialArray);
+
     const handleSubmit = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
-            const newId = nanoid();
-            console.log(newId);
-            setValue({ ...initialValue, id: newId });
-            const newItems = [...list];
-            newItems.push(initialValue);
-            setList(newItems);
-            // setValue({ id: "", text: "" });
+
+            const newItem: Item = {
+                ...initialValue,
+                id: nanoid(),
+            };
+
+            setList((prevList) => [...prevList, newItem]);
+            setValue({ id: "", text: "" });
         },
-        [initialValue, setList, list, setValue]
+        [initialValue, setList, setValue]
     );
 
     return [list, handleSubmit];

@@ -5,7 +5,11 @@ interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ text }) => {
-    return <li>{text}</li>;
+    return (
+        <li>
+            <span>{text}</span>
+        </li>
+    );
 };
 
 export default TodoItem;
