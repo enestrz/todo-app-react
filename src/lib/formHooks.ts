@@ -4,6 +4,7 @@ import { useState, ChangeEvent, useCallback, FormEvent } from "react";
 type Item = {
     id: string;
     text: string;
+    isDone: boolean;
 };
 
 type UseItemReturnType = [
@@ -48,7 +49,7 @@ export function useHandleSubmit(
             };
 
             setList((prevList) => [...prevList, newItem]);
-            setValue({ id: "", text: "" });
+            setValue({ ...initialValue, id: "", text: "" });
         },
         [initialValue, setList, setValue]
     );

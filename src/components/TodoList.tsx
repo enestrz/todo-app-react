@@ -1,14 +1,18 @@
-import { useContext } from "react";
-import { TodoContext } from "../lib/TodoContext";
 import TodoItem from "./TodoItem";
+import { useTasks } from "../lib/TodoContext";
 
 const TodoList = () => {
-    const data = useContext(TodoContext);
+    const todoList = useTasks();
 
     return (
         <ul>
-            {data.todoList?.map((item) => (
-                <TodoItem key={item.id} text={item.text} />
+            {todoList?.map((item) => (
+                <TodoItem
+                    key={item.id}
+                    id={item.id}
+                    text={item.text}
+                    isDone={item.isDone}
+                />
             ))}
         </ul>
     );

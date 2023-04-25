@@ -1,20 +1,8 @@
-import { useContext } from "react";
-import { TodoContext } from "../lib/TodoContext";
-import { useHandleChange, useHandleSubmit } from "../lib/formHooks";
+import { TodoProvider } from "../lib/TodoContext";
 import AddTodo from "./AddTodo";
 import TodoList from "./TodoList";
 
 export default function Main() {
-    const [todoItem, setTodoItem, handleChange] = useHandleChange({
-        id: "",
-        text: "",
-    });
-    const [todoList, handleSubmit] = useHandleSubmit([], todoItem, setTodoItem);
-
-    const data = {
-        todoList,
-    };
-
     return (
         <main
             className="flex-1
@@ -29,18 +17,14 @@ export default function Main() {
             "
         >
             <h2>What are you planning to do?</h2>
-            <TodoContext.Provider value={data}>
+            <TodoProvider>
                 <section>
-                    <AddTodo
-                        todoItem={todoItem}
-                        handleChange={handleChange}
-                        handleSubmit={handleSubmit}
-                    />
+                    <AddTodo />
                 </section>
                 <section>
                     <TodoList />
                 </section>
-            </TodoContext.Provider>
+            </TodoProvider>
         </main>
     );
 }

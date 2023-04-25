@@ -1,21 +1,27 @@
 import React from "react";
+import { useTasksDispatch } from "../lib/TodoContext";
+import { nanoid } from "nanoid";
 
-type Item = {
-    id: string;
-    text: string;
-};
+const AddTodo = () => {
+    const [todoItem, setTodoItem] = React.useState({
+        id: "",
+        text: "",
+        isDone: false,
+    });
 
-type AddTodoProps = {
-    todoItem: Item;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-};
+    const dispatch = useTasksDispatch();
 
-const AddTodo: React.FC<AddTodoProps> = ({
-    todoItem,
-    handleChange,
-    handleSubmit,
-}) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTodoItem({ ...todoItem, text: e.target.value });
+    };
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const newTodoItem = { ...todoItem, id: nanoid() };
+        dispatch({ type: "ADD_TODO", payload: newTodoItem });
+        setTodoItem({ ...todoItem, text: "" });
+    };
+
     return (
         <form onSubmit={handleSubmit}>
             <input
